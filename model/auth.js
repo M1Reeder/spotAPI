@@ -29,7 +29,7 @@ module.exports = function(passport, LocalStrategy) {
 	return {
 		ensureAuthenticated: function(req, res, next) {
 				if (req.isAuthenticated()) { return next(); }
-				res.render('403');
+				res.send('{err: "403", msg: "Permission Denied"}');
 		},
 
 		authenticate: function(req, res, next){
@@ -39,14 +39,14 @@ module.exports = function(passport, LocalStrategy) {
 					console.log('Auth: ' + info.message);
 					if(req.session === undefined) {
 						console.log('session is undefined');
-						return res.render('login', {message: info.message});
+						return res.send('{err: "session is undefined", msg: "' + info.message + '"}');
 					}
 					req.session.messages =  [info.message];
-					return res.send('User not found');
+					return res.send('{err: "User not found", msg: "Was unable to find a user that matches that username and password"}');
 				}
 				req.logIn(user, function(err) {
 					if (err) { return next(err); }
-						return res.redirect('/');
+						return res.send('{err: "null", msg: "Login Successful"}');
 				});
 			})(req, res, next);
 		}
