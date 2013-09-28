@@ -42,7 +42,7 @@ module.exports = function(passport, LocalStrategy) {
 						return res.render('login', {message: info.message});
 					}
 					req.session.messages =  [info.message];
-					return res.redirect('/');
+					return res.send('User not found');
 				}
 				req.logIn(user, function(err) {
 					if (err) { return next(err); }

@@ -41,7 +41,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', function(req, res){
-	res.render('index', { title: 'Crumbs' });
+	res.render('index', { title: 'Spot Saver' });
 });
 
 app.post('/signup', userController.signup);

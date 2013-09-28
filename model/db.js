@@ -71,8 +71,7 @@ module.exports = function(){
 					return err;
 				}
 				console.log("new user: " + newUser.username);
-				res.render('index', {title: newUser.username});
-				//somehow sign this guy in
+				res.send('{err: "null", msg: "' + newUser.username +' has been added successfully."}');
 			});
 		},
 
