@@ -71,7 +71,7 @@ module.exports = function(){
 					return err;
 				}
 				console.log("new user: " + newUser.username);
-				res.send('{err: "null", msg: "' + newUser.username +' has been added successfully."}');
+				res.send('{err: "", msg: "' + newUser.username +' has been added successfully."}');
 			});
 		},
 
@@ -83,7 +83,6 @@ module.exports = function(){
 					return err;
 				}
 				var spotArray = user.spots;
-				console.log(spotArray);
 				res.send(spotArray);
 			});
 		},
@@ -91,24 +90,47 @@ module.exports = function(){
 		addSpot: function(req, res){
 			User.findOne({ username: req.user.username }, function(err, user) {
 				user.spots.push(req.body);
-				console.log(user);
 				user.save(function (err){
 					if(err){
 						console.log(err);
 						res.send('{err: ' + err + '}');
 						return err;
 					}
-					res.send('{err: "null", msg: "Spot has been added"}');
+					res.send('{err: "", msg: "Spot has been added"}');
 				});
 			});
 		},
 
 		updateSpot: function(req, res){
+			User.findOne({ username: req.user.username }, function(err, user) {
+				var spot = user.spots.id(req.body._id);
+				spot.name = req.body.name;
+				spot.longitude = req.body.longitude;
+				spot.latitude = req.body.latitude;
 
+				user.save(function (err){
+					if(err){
+						console.log(err);
+						res.send('{err: ' + err + '}');
+						return err;
+					}
+					res.send('{err: "", msg: "Spot has been updated"}');
+				});
+			});
 		},
 
 		deleteSpot: function(req, res){
-
+			User.findOne({ username: req.user.username }, function(err, user) {
+				var spot = user.spots.id(req.body.id).remove();
+				user.save(function (err){
+					if(err){
+						console.log(err);
+						res.send('{err: ' + err + '}');
+						return err;
+					}
+					res.send('{err: "", msg: "Spot has been deleted"}');
+				});
+			});
 		},
 	};
-};
+}();
