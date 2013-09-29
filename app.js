@@ -19,6 +19,7 @@ var express = require('express'),
 	apiController = require('./controller/ApiController')(db),
 	userController = require('./controller/UserController')(db);
 
+colors = require('colors');
 
 // all environments
 app.set('port', process.env.PORT || 3000);

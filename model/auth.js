@@ -12,7 +12,7 @@ module.exports = function(passport, LocalStrategy) {
 
 	passport.use(new LocalStrategy(function(username, password, done) {
 		User.findOne({ username: username }, function(err, user) {
-			console.log(user);
+			console.log((user.username + " has logged in.").green);
 			if (err) { return done(err); }
 			if (!user) { return done(null, false, { message: 'Unknown user ' + username, err: 'unknown user' }); }
 			user.comparePassword(password, function(err, isMatch) {
@@ -46,7 +46,7 @@ module.exports = function(passport, LocalStrategy) {
 				}
 				req.logIn(user, function(err) {
 					if (err) { return next(err); }
-						return res.send('{err: "null", msg: "Login Successful"}');
+						return res.send('{err: "", msg: "Login Successful"}');
 				});
 			})(req, res, next);
 		}

@@ -96,6 +96,7 @@ module.exports = function(){
 						res.send('{err: ' + err + '}');
 						return err;
 					}
+					console.log((user.username + ' has added a spot').green);
 					res.send('{err: "", msg: "Spot has been added"}');
 				});
 			});
@@ -104,6 +105,12 @@ module.exports = function(){
 		updateSpot: function(req, res){
 			User.findOne({ username: req.user.username }, function(err, user) {
 				var spot = user.spots.id(req.body._id);
+				//If the spot doesn't exist then create a new one
+				if(spot !== undefined) {
+					console.log(('Spot id not found for user ' + user.username).red);
+					res.send('{err: "No spot with this id", msg: "The id you sent does not match any stop id for this user."}');
+					return;
+				}
 				spot.name = req.body.name;
 				spot.longitude = req.body.longitude;
 				spot.latitude = req.body.latitude;
